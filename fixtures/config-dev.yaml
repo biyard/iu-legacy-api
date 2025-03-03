@@ -1,0 +1,187 @@
+## common configuration
+env: dev
+
+server:
+  type: lambda
+  port: 3000
+
+watch:
+  enabled: false
+
+logging:
+  # debug, info, error, critical
+  level: debug
+
+  # json or console
+  encoding: json
+
+  logRotate:
+    enabled: false
+    logPath: logs/app.log
+    errorLogpath: logs/error.log
+    maxSize: 100
+    maxBackups: 10
+    maxAge: 30
+
+aws:
+  # dev IAM credential
+  accessKeyId: {AWS_KEY_ID}
+  secretKey: {AWS_SECRET_KEY}
+  region: ap-northeast-2
+
+database:
+  enabled: true
+  type: dynamodb
+
+  ## If you don't use linux, you may change endpoint to localhost
+  ## Also, you need to comment out port binding in docker-compose.yaml
+  # endpoint: mongodb://by-mongo
+  name: dev-iuniverse
+
+authorization:
+  code: {ADMIN_CODE}
+
+# if you need various headers, you may enable section and adjust allow headers
+cors:
+  enabled: false
+  headers:
+    - authorization
+    - content-type
+  origins:
+    - http://localhost:5000
+  methods:
+    - GET
+    - POST
+    - OPTIONS
+    - PUT
+    - DELETE
+    - PATCH
+  credentialMode: true
+
+## App configuration
+feepayer:
+  address: 0xb9a72033A3339B82DEf38d70c5e373a03a45fA0b
+  privateKey: {FEEPAYER_KEY}
+
+owner:
+  address: 0xb9a72033A3339B82DEf38d70c5e373a03a45fA0b
+  privateKey: {OWNER_KEY}
+
+contracts:
+  ## Biyard NFT v1
+  - 0xea0A7aA0fb382Ca0E3D5766Ea170BC9093102B9E
+  - 0x7aD2080134C8EcC96CfbA6C56759aCB2A8B51B16
+  ## Biyard NFT v2
+  - 0x7F3A142E8bbb68098159ff5Ff6557c6C99325B8b
+  ## Holder aggregation extension
+  - 0xA43B083BA2Aff1189070245bF19F77Ea6a8cbDed #v1
+  - 0xB3C0B5ADE5dB3Ca66699A949F0C24eC48e20286E #v2
+  ## Token history extension
+  - 0x3c3c0c231e5dB10f0C63cBa48a976fBE2b35BBb4
+  ## Token id extension
+  - 0xCeE4aAaD519D03D92C31402ea4dA5A0e7CA6b9D4
+  ## Closed token claim extension
+  - 0x40032ab592f0a23078C3b8D7E3Fd778Db7E9FA9e #v1
+  - 0x08ac787c78Ca827097413811299A2Ae33A0b2D81 #v2
+  - 0x9AaB7152296447015943e42d0982cD355A39DEDa #v3
+  ## Experience extension
+  - 0x24e9B346D95Af3220A1022861a1A3ce936B5D6C2
+  ## Mission extension
+  - 0x70ADA463d16F52ade7C3D03E1864c7B89061B01f
+  ## AccountExperience extension
+  - 0x49ee26D4dc8d52309e30fa190eBCe33fB8BF6279
+  ## Shop extension
+  - 0x0Ad77E3C5CE4b29862600Bb21e9Fc4b93A53631a
+
+contractAddresses:
+  closedTokenClaim: 0x08ac787c78Ca827097413811299A2Ae33A0b2D81
+  shop: 0x24c702cE59211102d3B7f2315784b6376c109Ba1
+  nft: 0x7F3A142E8bbb68098159ff5Ff6557c6C99325B8b
+  exp: 0x24e9B346D95Af3220A1022861a1A3ce936B5D6C2
+  accountProfile: 0x140Df52059e11C73588923b697a1b8d4EDD9C12E
+
+klaytn:
+  endpoint: https://public-en-baobab.klaytn.net
+  chainId: 1001
+
+services:
+  feeEndpoint: https://dev-api.incheon.world
+
+oauth:
+  redirectUri:
+    - http://localhost:5000/
+    - https://iuniverse.biyard.co/
+    - https://www.incheon.world/
+  kakao:
+    clientId: 376264d68e7b4ad09d856a757f1b0ce7
+    endpoint: https://kauth.kakao.com
+  google:
+    credentialFile: firebase-credential.json
+    endpoint: https://oauth2.googleapis.com
+
+hint:
+  # It is the key secret for Incheon Universe.
+  secret: "{HINT_SECRET}"
+
+  # only easy key restore on CS
+  account:
+    address: 0xb1bc94e62d61760cd43f13fdbd31364821c9d62e
+    publicKey: 0x624b69abae2fb39408556f673b22bc4e784e1225d65b5ba963f1ee8787a9c23741d3b33ce3a7494d3bc58c880a5da58629dc4580039dc173cdd37559abc280fa
+    ## NOTE: this is deprecated
+    privateKey: {RESTORE_KEY}
+
+abi: |
+  [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+
+
+endpoint: https://dev.incheon.world/#
+discord:
+  ## Comy Bot
+  botToken: {BOT_TOKEN}
+  channels:
+    dao: "1241934262026899476"
+
+icp:
+  endpoint: https://hbrpn-74aaa-aaaaa-qaaxq-cai.icp.biyard.co
+
+redis:
+  enabled: true
+  tls: true
+  serviceId: iu
+  endpoint: dev-redis-qrawxb.serverless.apn2.cache.amazonaws.com:6379
+  cacheExpiration: 5m
+  minIdleConn: 200
+  ttl: 18144000
+  poolSize: 10
+  poolTimeout: 3s
+  readTimeout: 500ms
+  writeTimeout: 500ms
+  maxRetries: 3
+  minRetryBackoff: 8ms
+  maxRetryBackoff: 512ms
+  readOnly: false
+  randomRoute: false

@@ -1,0 +1,6 @@
+[submodule "deps/go-common"]
+	path = deps/go-common
+	url = git@github.com:biyard/go-common.git
+[submodule "deps/klaytn"]
+	path = deps/klaytn
+	url = https://github.com/hackartists/klaytn.git
